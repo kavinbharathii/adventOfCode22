@@ -1,4 +1,6 @@
 
+# start-of-packet marker
+
 with open("data.txt", "r") as file:
     buffer = file.readline()
 
