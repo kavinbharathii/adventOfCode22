@@ -1,4 +1,6 @@
 
+# Maximum calories
+
 with open("data.txt", "r") as file:
     raw_data = file.readlines()
     file.close()
