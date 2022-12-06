@@ -1,5 +1,5 @@
 
-# Crates input
+# Crates moving
 
 # [N]             [R]             [C]
 # [T] [J]         [S] [J]         [N]
