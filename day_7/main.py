@@ -5,6 +5,13 @@ import rich
 
 # ----------------------------------------------- constants ------------------------------------------------- #
 
+# Given puzzle contains some constants like,
+# ```
+# maximum size to be considered small = MAX_SIZE
+# total size of the disk              = TOTAL_SIZE
+# required size for the update        = REQ_SIZE
+# ```
+
 MAX_SIZE = 100000
 TOTAL_SIZE = 70000000
 REQ_SIZE = 30000000
@@ -17,6 +24,7 @@ with open("data.txt", "r") as file:
 
 # ----------------------------------------------- directree ------------------------------------------------ # 
 
+# storing the directories and their sub_dirs/files in a dictionary
 
 tree = {
     '/' : []
@@ -24,6 +32,7 @@ tree = {
 
 # ---------------------------------------------- parse input ----------------------------------------------- # 
 
+# current directory path
 curr = '/'
 
 for line in raw_data:
@@ -34,34 +43,47 @@ for line in raw_data:
                 if cmds[2] == '/':
                     curr = '/'
 
+                # To go back one diretory, remove the last part after the '-'
+                # in the current directory value.
+                # if curr = '/-old_dir-new_dir', after changing, it becomes,
+                # curr = '/-old_dir'
                 elif cmds[2] == '..':
                     curr = '-'.join(curr.split('-')[:-1])
 
+                # If we 'cd' into a new directory, the current directory becomes
+                # 'curr + new_dir'. This is to avoid overriding of values in the 'tree' 
+                # dictionary since there are duplicate values in the directory structure.
                 else:
                     curr = curr + '-' + cmds[2]
 
             case 'ls':
                 pass
     else:
+        # if the first value is numeric, it's a file
         if cmds[0].isnumeric():
             tree[curr].append((cmds[1], int(cmds[0])))
 
+        # else it's a folder
         elif cmds[0] == "dir":
             tree[curr + '-' + cmds[1]] = []
             tree[curr].append(curr + '-' + cmds[1])
 
 # -------------------------------------- calculate directory sizes ----------------------------------------- # 
 
+# dictionary to keep values of all the directories in the tree
 size = {}
 
 def get_size(dir):
     total = 0
     for sub_dir in tree[dir]:
         if type(sub_dir) != tuple:
+
+            # recursively check all the sub directories
             total += get_size(sub_dir)
         else:
             total += sub_dir[1]
 
+    # store the space of the directory in the size dict
     size[dir] = total
     return total
 
