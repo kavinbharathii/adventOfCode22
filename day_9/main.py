@@ -6,27 +6,35 @@ with open("data.txt", "r") as file:
     file.close()
 
 
+# Update the tail based on the head
+
 def update(h, t, record = False):
 
+    # If they are touching, don't do anything
     if abs(h[0] - t[0]) <= 1 and abs(h[1] - t[1]) <= 1:
         return
 
     else:
-        if h[0] > t[0]:
-            t[0] += 1
+        if h[0] > t[0]:             # if the head is above the tail in x axis
+            t[0] += 1               # increment the tail by one in x axis
 
-        if h[0] < t[0]:
-            t[0] -= 1
+        if h[0] < t[0]:             # if the head is below the tail in x axis
+            t[0] -= 1               # decrement the tail by one in x axis
         
-        if h[1] > t[1]:
-            t[1] += 1
+        if h[1] > t[1]:             # if the head is after the tail in y axis
+            t[1] += 1               # increment the tail by one in y axis
 
-        if h[1] < t[1]:
-            t[1] -= 1
+        if h[1] < t[1]:             # if the head is before the tail in y axis
+            t[1] -= 1               # decrement the tail by one in y axis
 
+
+        # If we are recording the moves [to account for the second problem],
+        # record it once the movement is complete. Since the x and y are dealt seperately 
+        # and the record is taken AFTER the movement, the diagonal rule is satisfied
         if record:
             tail_pos.add(tuple(t))
         
+        # Recursively update the tail until it's touching the head [atmost for 2 depth, I think]
         update(h, t)
 
 # ------------------------------------------------------ part 1 ------------------------------------------------------ # 
@@ -61,7 +69,7 @@ solution_1 = len(tail_pos)
 
 # ------------------------------------------------------ part 2 ------------------------------------------------------ # 
 
-knots = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
+knots = [[0, 0] for _ in range(10)]
 
 tail_pos = set()
 
