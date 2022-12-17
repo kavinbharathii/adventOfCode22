@@ -54,44 +54,33 @@ def draw_grid():
                 pygame.draw.rect(display, DARK, (i * rez, j * rez, rez, rez), 1)
 
 
-# Return True if a position in a grid is blocked,
-# i.e., there is no option to go anywhere
-def blocked(pos):
-    x, y = pos
-    if grid[x + 1][y] == 0:
-        return False
-
-    if y > 0 and grid[x + 1][y - 1] == 0:
-        return False
-    
-    if y < len(grid) - 1 and grid[x + 1][y + 1] == 0:
-        return False
-
-    return True
-
 def dropsand():
     # Initialize position as the block below the SOURCE block, and check the three options
     # (1, 0), (1, -1) and (1, 1) until the sand particle becomes blocked.
-    pos = [source[0] + 1, source[1]]
+    pos = [source[0], source[1]]
     while True:
-        temp = deepcopy(pos)
+        if grid[pos[0] + 1][pos[1]] == 0:
+            pos[0] += 1
 
-        # Check all three posssible moves for the sand in [DOWN, DOWNLEFT, DOWNRIGHT] order.
-        for dr, dc in [(1, 0), (1, -1), (1, 1)]:
-            rr = pos[0] + dr
-            cc = pos[1] + dc
+        elif grid[pos[0] + 1][pos[1] - 1] == 0:
+            pos[0] += 1
+            pos[1] -= 1
 
-            if grid[rr][cc] == 0:
-                pos[0] += dr
-                pos[1] += dc
-                break
+        elif grid[pos[0] + 1][pos[1] + 1] == 0:
+            pos[0] += 1
+            pos[1] += 1
 
-        # "Unsand" the particle above the previous position and "sand" the current position.
-        grid[temp[0]][temp[1]] = 0
-        grid[pos[0]][pos[1]] = 1
+        else:
+            total = 0
+            for i in grid:
+                for j in i:
+                    if j == 1: total += 1
 
-        if blocked(pos):
+            print(total)
             break
+
+    grid[pos[0]][pos[1]] = 1
+
 
 def main():
     loop = True
