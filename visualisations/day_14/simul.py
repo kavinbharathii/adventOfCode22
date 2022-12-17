@@ -70,20 +70,16 @@ def dropsand():
             pos[1] += 1
 
         else:
-            total = 0
-            for i in grid:
-                for j in i:
-                    if j == 1: total += 1
-
-            print(total)
             break
 
     grid[pos[0]][pos[1]] = 1
 
-
 def main():
     loop = True
     clock = pygame.time.Clock()
+    
+    # To check if the simulation is complete
+    completed = False
     while loop:
         clock.tick(60)
         for event in pygame.event.get():
@@ -91,7 +87,19 @@ def main():
                 loop = False
                 # quit()
 
-        dropsand()
+        if not completed:
+            try:
+                dropsand()
+            except IndexError:
+                total = 0
+                for row in grid:
+                    for ele in row:
+                        if ele == 1: total += 1
+
+                print(total)
+                # Simulation is complete
+                completed = True
+
         draw_grid()
         pygame.display.flip()
 
