@@ -71,15 +71,15 @@ for i in range(len(grid)):
     for j in range(len(grid[0])):
         if visual_grid[i][j] == '+': sand_source = (i, j)
 
-# ------------------------------------------------------ part one ------------------------------------------------------ #
 
-
-solution_1 = 0
-
-def dropsand():
+def dropsand(sand_source):
     # Initialize position as the block below the SOURCE block, and check the three options
     # (1, 0), (1, -1) and (1, 1) until the sand particle becomes blocked.
     pos = [sand_source[0], sand_source[1]]
+
+    # If the source is blocked [required for part 2]
+    if grid[sand_source[0] + 1][sand_source[1]] != 0 and grid[sand_source[0] + 1][sand_source[1] - 1] != 0 and grid[sand_source[0] + 1][sand_source[1] + 1] != 0:
+        return True
     while True:
         if grid[pos[0] + 1][pos[1]] == 0:
             pos[0] += 1
@@ -96,10 +96,16 @@ def dropsand():
             break
 
     grid[pos[0]][pos[1]] = 1
+    return False
+
+# ------------------------------------------------------ part one ------------------------------------------------------ #
+
+
+solution_1 = 0
 
 while True:
     try:
-        dropsand()
+        dropsand(sand_source)
     except:
         total = 0
         for i in grid:
@@ -112,10 +118,53 @@ while True:
 # ------------------------------------------------------ part two ------------------------------------------------------ #
 
 
+visual_grid = []
+grid = []
 
-# ---------------------------------------------------------------------------------------------------------------------- #
+sand_source = (500, 0)
+
+for j in range(min_y, max_y + 1):
+    visual_grid.append([])
+    grid.append([])
+    for i in range(min_x - max_y, max_x + max_y + 1):
+        if (i, j) in rocks:
+            visual_grid[-1].append('#')
+            grid[-1].append(2)
+        elif (i, j) == sand_source:
+            visual_grid[-1].append('+')
+            grid[-1].append(1)
+        else:
+            visual_grid[-1].append('.')
+            grid[-1].append(0)
+
+
+# adding the goddamn floor
+grid.append([0] * len(grid[0]))
+grid.append([2] * len(grid[0]))
+
+# adding the goddamn floor to visual
+visual_grid.append(['.'] * len(grid[0]))
+visual_grid.append(['#'] * len(grid[0]))
+
+for i in range(len(grid)):
+    for j in range(len(grid[0])):
+        if visual_grid[i][j] == '+': 
+            sand_source = (i, j)
+
+solution_2 = 0
+
+while True:
+    res = dropsand(sand_source)
+    if res:
+        break
+
+for i in grid:
+    for j in i:
+        if j == 1:
+            solution_2 += 1
+# # ---------------------------------------------------------------------------------------------------------------------- #
 
 print(f"Part 1: {solution_1}")
-# print(f"Part 2: {solution_2}")
+print(f"Part 2: {solution_2}")
 
 # ---------------------------------------------------------------------------------------------------------------------- #
