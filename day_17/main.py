@@ -19,29 +19,30 @@ rock_count = 0
 rock_index = 0
 rock = {x + 2 + (height + 3) * 1j for x in rocks[rock_index]}
 
-# while rock_count < 2022:
-#     for jet in gas:
-#         moved = {x + jet for x in rock}
-#         if all(0 <= x.real < 7 for x in moved) and not (moved & solid):
-#             rock = moved
-#         moved = {x - 1j for x in rock}
-#         if moved & solid:
-#             solid |= rock
-#             rock_count += 1
-#             height = max(x.imag for x in solid) + 1
+# [ Part 1 ]
+while rock_count < 2022:
+    for jet in gas:
+        moved = {x + jet for x in rock}
+        if all(0 <= x.real < 7 for x in moved) and not (moved & solid):
+            rock = moved
+        moved = {x - 1j for x in rock}
+        if moved & solid:
+            solid |= rock
+            rock_count += 1
+            height = max(x.imag for x in solid) + 1
 
-#             if rock_count >= 2022:
-#                 break
+            if rock_count >= 2022:
+                break
 
-#             rock_index = (rock_index + 1) % 5
-#             rock = {x + 2 + (height + 3) * 1j for x in rocks[rock_index]}
+            rock_index = (rock_index + 1) % 5
+            rock = {x + 2 + (height + 3) * 1j for x in rocks[rock_index]}
 
-#         else:
-#             rock = moved
+        else:
+            rock = moved
 
-# print(int(height))
+print(int(height))
 
-
+# [ Part 2 ]
 trillo = 1_000_000_000_000
 seen = {}
 
