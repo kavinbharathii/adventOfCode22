@@ -86,3 +86,4 @@ for i in range((e + 1) // 2):
 
 print(f"Part 1: {solution_1}")
 print(f"Part 2: {solution_2}")
+
