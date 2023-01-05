@@ -73,3 +73,4 @@ for (x, y, z) in drops:
 
 print(f"Part 1: {solution_1}")
 print(f"Part 2: {solution_2}")
+
