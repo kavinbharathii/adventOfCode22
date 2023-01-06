@@ -1,7 +1,6 @@
 # adventOfCode22
-My solutions to the advent of code 2022:
+My solutions to the [advent of code 2022](https://adventofcode.com)
 
-event link => https://adventofcode.com
 resources for solutions, algorithm, and insights:
   - [hyper-neutrino](https://www.youtube.com/@hyper-neutrino)
   - [Jonathan Paulson](https://www.youtube.com/@jonathanpaulson5053) 
